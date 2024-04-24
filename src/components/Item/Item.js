@@ -43,7 +43,9 @@ export default class Item {
   #createElement() {
     const item = new Row(this.#getClasses(this.#params.classes), this.#params.id).element
     const itemName = new Div({ title: this.#params.name }).element
-    const itemPrice = new Div({ title: this.#params.price }).element
+    const itemPrice = new Div({
+      title: new Intl.NumberFormat('ru-RU').format(this.#params.price),
+    }).element
     const itemActions = new Actions().element
 
     item.append(itemName, itemPrice, itemActions)

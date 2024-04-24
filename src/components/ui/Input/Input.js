@@ -35,7 +35,7 @@ export default class Input {
       classes: [],
       id: '',
       type: 'text',
-      required: true,
+      required: false,
       placeholder: '...',
     }
   }

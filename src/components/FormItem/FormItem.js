@@ -32,7 +32,7 @@ export default class FormItem {
     }).element
     const fieldName = new Input({
       classes: styles.fieldName,
-      name: 'fieldName',
+      name: 'name',
       placeholder: 'Введите название',
     }).element
     const labelPrice = new Label({
@@ -41,7 +41,7 @@ export default class FormItem {
     }).element
     const fieldPrice = new Input({
       classes: styles.fieldPrice,
-      name: 'fieldPrice',
+      name: 'price',
       placeholder: 'Введите стоимость',
     }).element
     const controls = new Div({ classes: styles.controls }).element
@@ -59,6 +59,8 @@ export default class FormItem {
     labelPrice.append(fieldPrice)
     controls.append(btnSave, btnCancel)
     formItem.append(labelName, labelPrice, controls)
+
+    formItem.noValidate = true
 
     return formItem
   }
