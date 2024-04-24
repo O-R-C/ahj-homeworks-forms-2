@@ -1,0 +1,16 @@
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.btnEdit {
+  border: none;
+  background: url('../../images/edit.png') no-repeat;
+}
+
+.btnDelete {
+  border: none;
+  background: url('../../images/delete.png') no-repeat;
+}

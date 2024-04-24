@@ -1,0 +1,9 @@
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.itemsList {
+  font-size: inherit;
+}
