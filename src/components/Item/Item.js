@@ -41,7 +41,7 @@ export default class Item {
   }
 
   #createElement() {
-    const item = new Row(this.#getClasses(this.#params.classes)).element
+    const item = new Row(this.#getClasses(this.#params.classes), this.#params.id).element
     const itemName = new Div({ title: this.#params.name }).element
     const itemPrice = new Div({ title: this.#params.price }).element
     const itemActions = new Actions().element

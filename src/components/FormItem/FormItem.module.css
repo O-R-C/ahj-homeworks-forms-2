@@ -16,7 +16,8 @@
   gap: 10px;
 }
 
-.formItem button {
+.btnSave,
+.btnCancel {
   width: 150px;
 }
 

@@ -33,6 +33,7 @@ export default class FormItem {
     const fieldName = new Input({
       classes: styles.fieldName,
       name: 'fieldName',
+      placeholder: 'Введите название',
     }).element
     const labelPrice = new Label({
       classes: styles.labelPrice,
@@ -41,11 +42,13 @@ export default class FormItem {
     const fieldPrice = new Input({
       classes: styles.fieldPrice,
       name: 'fieldPrice',
+      placeholder: 'Введите стоимость',
     }).element
     const controls = new Div({ classes: styles.controls }).element
     const btnSave = new Button({
       classes: styles.btnSave,
       title: 'Сохранить',
+      type: 'submit',
     }).element
     const btnCancel = new Button({
       classes: styles.btnCancel,

@@ -4,13 +4,15 @@ import styles from './Row.module.css'
 
 export default class Row {
   #classes
+  #dataID
 
   /**
    *
    * @param {String|String[]} classes
    */
-  constructor(classes) {
+  constructor(classes, dataID) {
     this.#classes = classes
+    this.#dataID = dataID ?? null
   }
 
   /**
@@ -21,7 +23,7 @@ export default class Row {
   }
 
   #createElement() {
-    const row = new Div({ classes: this.#getClasses(this.#classes) }).element
+    const row = new Div({ classes: this.#getClasses(this.#classes), data: { id: this.#dataID } }).element
 
     return row
   }

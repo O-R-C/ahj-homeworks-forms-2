@@ -55,6 +55,7 @@ export default class Div {
 
     this.#params.id && (element.id = this.#params.id)
     this.#params.title && (element.textContent = this.#params.title)
+    this.#params.data?.id && (element.dataset.id = this.#params.data.id)
 
     return element
   }

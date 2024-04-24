@@ -1,0 +1,8 @@
+.modal {
+  width: 700px;
+}
+
+::backdrop {
+  background: white;
+  opacity: 0.9;
+}
