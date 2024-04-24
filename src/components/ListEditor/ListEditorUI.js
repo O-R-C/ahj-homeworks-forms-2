@@ -4,14 +4,16 @@ import Items from '../Items/Items'
 import Header from '../Header/Header'
 
 import styles from './ListEditor.module.css'
+import Modal from '../Modal/Modal'
 
 export default class ListEditorUI {
   get app() {
     const app = new Div({ classes: [styles.app, 'wrapper'] }).element
+    const modal = new Modal(styles.modal).element
     const header = new Header(styles.header).element
     const items = new Items(styles.items).element
 
-    app.append(header, items)
+    app.append(modal, header, items)
 
     return app
   }

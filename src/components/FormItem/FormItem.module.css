@@ -1,0 +1,27 @@
+.formItem {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  padding: 20px;
+}
+
+.formItem input {
+  flex: 0 1;
+}
+
+.formItem label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formItem button {
+  width: 150px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
