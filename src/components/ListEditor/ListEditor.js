@@ -133,7 +133,7 @@ export default class ListEditor {
     this.#modalConfirm.close(result)
   }
 
-  #onCloseConfirm = (e) => {
+  #onCloseConfirm = () => {
     if (this.#modalConfirm.returnValue === 'true') {
       this.#deleteItem()
     }

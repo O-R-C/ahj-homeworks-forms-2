@@ -16,14 +16,12 @@ describe('test', () => {
     page = await browser.newPage()
   })
 
-  // eslint-disable-next-line jest/expect-expect
   test('app should render on page', async () => {
     await page.goto('http://localhost:8080')
 
     await page.waitForSelector('[class*="app"]')
   })
 
-  // eslint-disable-next-line jest/expect-expect
   test('add form should open and close', async () => {
     await page.goto('http://localhost:8080')
 
@@ -38,7 +36,6 @@ describe('test', () => {
     await btnCancel.click()
   })
 
-  // eslint-disable-next-line jest/expect-expect
   test('show custom errors', async () => {
     await page.goto('http://localhost:8080')
 
@@ -64,7 +61,6 @@ describe('test', () => {
     await btnCancel.click()
   })
 
-  // eslint-disable-next-line jest/expect-expect
   test('add new item', async () => {
     await page.goto('http://localhost:8080')
 
@@ -84,7 +80,6 @@ describe('test', () => {
     await btnSubmit.click()
   })
 
-  // eslint-disable-next-line jest/expect-expect
   test('edit item', async () => {
     await page.goto('http://localhost:8080')
 
@@ -104,7 +99,6 @@ describe('test', () => {
     await btnSubmit.click()
   })
 
-  // eslint-disable-next-line jest/expect-expect
   test('delete item', async () => {
     await page.goto('http://localhost:8080')
 
