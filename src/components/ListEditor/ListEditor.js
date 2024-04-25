@@ -3,6 +3,7 @@ import ListEditorUI from './ListEditorUI'
 import { data } from '../../js/data'
 import { clearPrice } from '../../js/clearPrice'
 import { clearCustomMessage, isInvalid } from '../../js/isInvalid'
+import { deleteStartZero } from '../../js/deleteStartZero'
 
 export default class ListEditor {
   #ui
@@ -11,15 +12,13 @@ export default class ListEditor {
   #modal
   #items
   #btnAdd
-  #btnSave
   #element
-  #btnDelete
   #btnCancel
   #itemsList
   #fieldName
   #fieldPrice
   #modalConfirm
-  #idToDelete
+  #idForOperations
 
   constructor(element) {
     if (typeof element === 'string') {
@@ -50,7 +49,6 @@ export default class ListEditor {
     this.#modal = this.#app.querySelector('[class*="modal"]')
     this.#form = this.#modal.querySelector('[class*="formItem"]')
     this.#btnAdd = this.#app.querySelector('[class*="btnAdd"]')
-    this.#btnSave = this.#app.querySelector('[class*="btnSave"]')
     this.#itemsList = this.#app.querySelector('[class*="itemsList"]')
     this.#btnCancel = this.#modal.querySelector('[class*="btnCancel"]')
     this.#modalConfirm = this.#app.querySelector('[class*="confirmDelete"]')
@@ -66,9 +64,9 @@ export default class ListEditor {
     this.#form.addEventListener('submit', this.#onSubmit)
     this.#modal.addEventListener('click', this.#onClickForm)
     this.#modal.addEventListener('close', this.#onCloseForm)
-    this.#btnAdd.addEventListener('click', this.#onAddItem)
+    this.#btnAdd.addEventListener('click', this.#onAddButton)
     this.#btnCancel.addEventListener('click', this.#onCancel)
-    this.#itemsList.addEventListener('click', this.#onDelete)
+    this.#itemsList.addEventListener('click', this.#onClickItems)
     this.#fieldName.addEventListener('input', this.#onInputName)
     this.#fieldPrice.addEventListener('input', this.#onInputPrice)
     this.#modalConfirm.addEventListener('click', this.#onClickConfirm)
@@ -89,7 +87,7 @@ export default class ListEditor {
     this.#itemsList.innerHTML = ''
   }
 
-  #onAddItem = () => {
+  #onAddButton = () => {
     this.#modal.showModal()
   }
 
@@ -109,23 +107,14 @@ export default class ListEditor {
     const invalid = isInvalid([this.#fieldName, this.#fieldPrice])
     if (invalid) return
 
-    this.#items.push(
-      new Item({
-        name: this.#fieldName.value,
-        price: this.#fieldPrice.value,
-      }),
-    )
+    this.#idForOperations ? this.#updateItem() : this.#addItem()
+
     this.#renderItems()
     this.#modal.close()
   }
 
   #onCloseForm = () => {
     this.#resetFields()
-  }
-
-  #resetFields() {
-    this.#fieldName.value = ''
-    this.#fieldPrice.value = ''
   }
 
   #onInputName = (e) => {
@@ -138,12 +127,13 @@ export default class ListEditor {
     this.#fieldPrice.value = clearPrice(value)
   }
 
-  #onDelete = (e) => {
-    const btnDelete = e.target.closest('[class*="btnDelete"]')
-    if (!btnDelete) return
+  #onClickItems = (e) => {
+    const btn = e.target.closest('button')
+    if (!btn) return
 
-    this.#idToDelete = btnDelete.closest('[class*="item"]').dataset.id
-    this.#modalConfirm.showModal()
+    this.#idForOperations = btn.closest('[class*="item"]').dataset.id
+
+    btn.closest('[class*="btnDelete"]') ? this.#modalConfirm.showModal() : this.#editItem()
   }
 
   #onClickConfirm = (e) => {
@@ -164,13 +154,55 @@ export default class ListEditor {
   }
 
   #deleteItem() {
-    this.#items = this.#items.filter((item) => item.id !== this.#idToDelete)
+    this.#items = this.#items.filter((item) => item.id !== this.#idForOperations)
+    this.#resetId()
     this.#renderItems()
+  }
+
+  #editItem() {
+    this.#setFieldsValues()
+    this.#modal.showModal()
+  }
+
+  #addItem() {
+    this.#items.push(
+      new Item({
+        name: this.#fieldName.value,
+        price: this.#fieldPrice.value,
+      }),
+    )
+  }
+
+  #updateItem() {
+    this.#items.map((item) => {
+      if (item.id === this.#idForOperations) {
+        item.name = this.#fieldName.value
+        item.price = deleteStartZero(this.#fieldPrice.value)
+      }
+      return item
+    })
+
+    this.#resetId()
   }
 
   #closeModal(target, modal) {
     if (target === modal) {
       modal.close(false)
     }
+  }
+
+  #resetFields() {
+    this.#fieldName.value = ''
+    this.#fieldPrice.value = ''
+  }
+
+  #setFieldsValues() {
+    const item = this.#items.find((item) => item.id === this.#idForOperations)
+    this.#fieldName.value = item.name
+    this.#fieldPrice.value = item.price
+  }
+
+  #resetId() {
+    this.#idForOperations = null
   }
 }

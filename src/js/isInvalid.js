@@ -7,14 +7,30 @@ import { errors } from './errors'
  */
 export const isInvalid = (arr) => {
   return arr.some((element) => {
-    if (!element.value) {
-      element.setCustomValidity(errors[element.name].valueMissing)
-      element.reportValidity()
-      return true
-    } else {
-      clearCustomMessage(element)
+    let error = null
+
+    if (element.name === 'price' && Number(element.value) <= 0) {
+      error = 'moreThanZero'
     }
+
+    if (!element.value) {
+      error = 'valueMissing'
+    }
+
+    setError(error, element)
+
+    return error ? true : false
   })
+}
+
+const checkError = (error, element) => {
+  error && setError(error, element)
+  !error && clearCustomMessage(element)
+}
+
+const setError = (error, element) => {
+  element.setCustomValidity(errors[element.name][error])
+  element.reportValidity()
 }
 
 export const clearCustomMessage = (element) => {
