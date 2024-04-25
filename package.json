@@ -35,9 +35,9 @@
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "lint": "eslint . --fix",
-    "test": "jest --testPathPattern=./js/",
+    "test": "jest --testPathPattern=./js/ --env=jsdom",
     "e2e": "jest --testPathPattern=./e2e/ --runInBand",
-    "coverage": "jest --coverage --testPathPattern=./js/",
+    "coverage": "jest --coverage --testPathPattern=./js/ --env=jsdom",
     "preshow:coverage": "npm run coverage",
     "preshow:dist": "npm run build"
   },
