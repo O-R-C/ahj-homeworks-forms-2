@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid'
+import { v4 as uuid4 } from 'uuid'
 
 export default class Item {
   /**
@@ -17,6 +17,6 @@ export default class Item {
   constructor({ name, price }) {
     this.name = name
     this.price = price
-    this.id = nanoid(5)
+    this.id = uuid4()
   }
 }

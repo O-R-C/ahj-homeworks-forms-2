@@ -17,7 +17,7 @@ export const isInvalid = (arr) => {
       error = 'valueMissing'
     }
 
-    setError(error, element)
+    checkError(error, element)
 
     return error ? true : false
   })

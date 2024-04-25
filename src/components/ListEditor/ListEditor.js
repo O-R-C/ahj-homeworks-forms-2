@@ -182,7 +182,7 @@ export default class ListEditor {
     this.#items.push(
       new Item({
         name: this.#fieldName.value,
-        price: this.#fieldPrice.value,
+        price: deleteStartZero(this.#fieldPrice.value),
       }),
     )
   }
