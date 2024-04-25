@@ -1,0 +1,19 @@
+.confirmDelete {
+  width: 500px;
+}
+
+.confirmDelete div {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btnDelete,
+.btnCancel {
+  width: 150px;
+}
+
+::backdrop {
+  background: white;
+  opacity: 0.9;
+}

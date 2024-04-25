@@ -6,6 +6,6 @@ export const errors = {
     valueMissing: 'Нужно ввести название',
   },
   price: {
-    valueMissing: 'Нужно указать стоимость',
+    valueMissing: 'Нужно указать стоимость - только цифры',
   },
 }

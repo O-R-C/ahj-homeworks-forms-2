@@ -1,6 +1,6 @@
+import Item from '../../js/Item'
 import ListEditorUI from './ListEditorUI'
 import { data } from '../../js/data'
-import Item from '../../js/Item'
 import { clearPrice } from '../../js/clearPrice'
 import { clearCustomMessage, isInvalid } from '../../js/isInvalid'
 
@@ -13,10 +13,13 @@ export default class ListEditor {
   #btnAdd
   #btnSave
   #element
+  #btnDelete
   #btnCancel
   #itemsList
   #fieldName
   #fieldPrice
+  #modalConfirm
+  #idToDelete
 
   constructor(element) {
     if (typeof element === 'string') {
@@ -48,8 +51,9 @@ export default class ListEditor {
     this.#form = this.#modal.querySelector('[class*="formItem"]')
     this.#btnAdd = this.#app.querySelector('[class*="btnAdd"]')
     this.#btnSave = this.#app.querySelector('[class*="btnSave"]')
-    this.#btnCancel = this.#app.querySelector('[class*="btnCancel"]')
     this.#itemsList = this.#app.querySelector('[class*="itemsList"]')
+    this.#btnCancel = this.#modal.querySelector('[class*="btnCancel"]')
+    this.#modalConfirm = this.#app.querySelector('[class*="confirmDelete"]')
 
     this.#fieldName = this.#form.name
     this.#fieldPrice = this.#form.price
@@ -60,11 +64,15 @@ export default class ListEditor {
    */
   #addListeners() {
     this.#form.addEventListener('submit', this.#onSubmit)
+    this.#modal.addEventListener('click', this.#onClickForm)
+    this.#modal.addEventListener('close', this.#onCloseForm)
     this.#btnAdd.addEventListener('click', this.#onAddItem)
     this.#btnCancel.addEventListener('click', this.#onCancel)
-    this.#modal.addEventListener('close', this.#onCloseForm)
+    this.#itemsList.addEventListener('click', this.#onDelete)
     this.#fieldName.addEventListener('input', this.#onInputName)
     this.#fieldPrice.addEventListener('input', this.#onInputPrice)
+    this.#modalConfirm.addEventListener('click', this.#onClickConfirm)
+    this.#modalConfirm.addEventListener('close', this.#onCloseConfirm)
   }
 
   /**
@@ -87,6 +95,10 @@ export default class ListEditor {
 
   #onCancel = () => {
     this.#modal.close()
+  }
+
+  #onClickForm = (e) => {
+    this.#closeModal(e.target, e.currentTarget)
   }
 
   #onSubmit = (e) => {
@@ -124,5 +136,41 @@ export default class ListEditor {
     clearCustomMessage(e.currentTarget)
     const value = this.#fieldPrice.value
     this.#fieldPrice.value = clearPrice(value)
+  }
+
+  #onDelete = (e) => {
+    const btnDelete = e.target.closest('[class*="btnDelete"]')
+    if (!btnDelete) return
+
+    this.#idToDelete = btnDelete.closest('[class*="item"]').dataset.id
+    this.#modalConfirm.showModal()
+  }
+
+  #onClickConfirm = (e) => {
+    this.#closeModal(e.target, e.currentTarget)
+
+    const btn = e.target.closest('button')
+    if (!btn) return
+
+    const result = btn.closest('[class*="btnDelete"]') ? true : false
+
+    this.#modalConfirm.close(result)
+  }
+
+  #onCloseConfirm = (e) => {
+    if (this.#modalConfirm.returnValue === 'true') {
+      this.#deleteItem()
+    }
+  }
+
+  #deleteItem() {
+    this.#items = this.#items.filter((item) => item.id !== this.#idToDelete)
+    this.#renderItems()
+  }
+
+  #closeModal(target, modal) {
+    if (target === modal) {
+      modal.close(false)
+    }
   }
 }

@@ -1,4 +1,3 @@
-import Div from '../ui/Div/Div'
 import FormItem from '../FormItem/FormItem'
 
 import styles from './Modal.module.css'
@@ -11,7 +10,7 @@ export default class Modal {
    * @param {String|String[]} classes
    */
   constructor(classes) {
-    this.#classes = classes
+    this.#classes = this.#getClasses(classes)
   }
 
   /**
@@ -22,12 +21,10 @@ export default class Modal {
   }
 
   #createElement() {
-    // const modal = new Div({ classes: this.#getClasses(this.#classes) }).element
     const modal = document.createElement('dialog')
-    modal.classList.add(styles.modal, 'wrapper')
+    modal.classList.add(...this.#classes, 'wrapper')
     const form = new FormItem(styles.form).element
 
-    // modal.hidden = true
     modal.append(form)
 
     return modal
