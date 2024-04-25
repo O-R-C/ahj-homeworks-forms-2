@@ -47,8 +47,8 @@ export default class ListEditor {
    */
   #addElements() {
     this.#modal = this.#app.querySelector('[class*="modal"]')
-    this.#form = this.#modal.querySelector('[class*="formItem"]')
     this.#btnAdd = this.#app.querySelector('[class*="btnAdd"]')
+    this.#form = this.#modal.querySelector('[class*="formItem"]')
     this.#itemsList = this.#app.querySelector('[class*="itemsList"]')
     this.#btnCancel = this.#modal.querySelector('[class*="btnCancel"]')
     this.#modalConfirm = this.#app.querySelector('[class*="confirmDelete"]')
@@ -71,20 +71,6 @@ export default class ListEditor {
     this.#fieldPrice.addEventListener('input', this.#onInputPrice)
     this.#modalConfirm.addEventListener('click', this.#onClickConfirm)
     this.#modalConfirm.addEventListener('close', this.#onCloseConfirm)
-  }
-
-  /**
-   * Выводит список товаров из базы this.#items
-   */
-  #renderItems() {
-    this.#clearItemsList()
-    this.#items.forEach((item) => {
-      this.#itemsList.append(this.#ui.getItem(item))
-    })
-  }
-
-  #clearItemsList() {
-    this.#itemsList.innerHTML = ''
   }
 
   #onAddButton = () => {
@@ -153,17 +139,45 @@ export default class ListEditor {
     }
   }
 
+  /**
+   * Выводит список товаров из базы this.#items
+   */
+  #renderItems() {
+    this.#clearItemsList()
+    this.#items.forEach((item) => {
+      this.#itemsList.append(this.#ui.getItem(item))
+    })
+  }
+
+  /**
+   * Очищает список элементов
+   */
+  #clearItemsList() {
+    this.#itemsList.innerHTML = ''
+  }
+
+  /**
+   * Удаляет выбранный элемент
+   */
   #deleteItem() {
     this.#items = this.#items.filter((item) => item.id !== this.#idForOperations)
     this.#resetId()
     this.#renderItems()
   }
 
+  /**
+   * Устанавливает значения в поля формы из данных элемента,
+   * и открывает форму для редактирования
+   */
   #editItem() {
     this.#setFieldsValues()
     this.#modal.showModal()
   }
 
+  /**
+   * Добавляет новый элемент,
+   * данные берутся из полей формы
+   */
   #addItem() {
     this.#items.push(
       new Item({
@@ -173,6 +187,9 @@ export default class ListEditor {
     )
   }
 
+  /**
+   * Обновляет данные элемента из полей формы
+   */
   #updateItem() {
     this.#items.map((item) => {
       if (item.id === this.#idForOperations) {
@@ -185,23 +202,37 @@ export default class ListEditor {
     this.#resetId()
   }
 
+  /**
+   * Закрывает диалог если кликнули за его пределами
+   * @param {Element} target элемент вызвавший событие
+   * @param {Element} modal элемент диалог
+   */
   #closeModal(target, modal) {
     if (target === modal) {
       modal.close(false)
     }
   }
 
+  /**
+   * Сбрасывает значения полей формы
+   */
   #resetFields() {
     this.#fieldName.value = ''
     this.#fieldPrice.value = ''
   }
 
+  /**
+   * Устанавливает значения полей формы из данных выбранного элемента
+   */
   #setFieldsValues() {
     const item = this.#items.find((item) => item.id === this.#idForOperations)
     this.#fieldName.value = item.name
     this.#fieldPrice.value = item.price
   }
 
+  /**
+   * Сбрасывает ID элемента для операций
+   */
   #resetId() {
     this.#idForOperations = null
   }
